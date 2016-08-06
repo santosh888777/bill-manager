@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Event Report</h1>
+
+<table class="table table-striped table-bordered table-hover" id="client_table">
+
+  <tbody>
+  <% @event_report.each do |event, event_details| %>
+      <tr><td style="font-weight: bold;">Event Name: <%= event[0] %>, Event date:  <%= event[1] %>, Location: <%= event[2] %>, Total amount: <%= event[3] %></td></tr><br>
+      <% unless event_details.nil? %>
+      <% event_details.each do|event_detail| %>
+          <tr>
+            <td>
+              <%= event_detail %>
+            </td>
+          </tr>
+      <%end%>
+      <%end%>
+  <% end %>
+  </tbody>
+</table>
+
+
+
