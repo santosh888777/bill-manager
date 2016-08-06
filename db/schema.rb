@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160806091331) do
+ActiveRecord::Schema.define(version: 20160806133205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,11 +19,14 @@ ActiveRecord::Schema.define(version: 20160806091331) do
   create_table "event_details", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.boolean  "is_present"
-    t.float    "paid_amount"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.boolean  "is_present",  default: false
+    t.float    "paid_amount", default: 0.0
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
+
+  add_index "event_details", ["event_id"], name: "index_event_details_on_event_id", using: :btree
+  add_index "event_details", ["user_id"], name: "index_event_details_on_user_id", using: :btree
 
   create_table "event_types", force: :cascade do |t|
     t.string   "name"
@@ -39,10 +42,12 @@ ActiveRecord::Schema.define(version: 20160806091331) do
     t.text     "description"
     t.date     "event_date"
     t.string   "location"
-    t.float    "total_amount"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.float    "total_amount",  default: 0.0
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
+
+  add_index "events", ["event_type_id"], name: "index_events_on_event_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

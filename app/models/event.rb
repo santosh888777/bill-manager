@@ -25,11 +25,10 @@ class Event < ActiveRecord::Base
     max_payee = event_details.first
     max_payee_name = max_payee.user.name
 
-    Rails.logger.info "###########{max_payee.inspect}"
-
     from = event_details.pluck("users.name")
     from.delete(max_payee_name)
-    data_list << "#{ max_payee_name } has taken amount $#{(divided_amt - (max_payee.paid_amount)*-1).round(2) rescue 0} from #{from.join(", ")}"
+    amt = (divided_amt - (max_payee.paid_amount)).round(2) rescue 0
+    data_list << "#{ max_payee_name } has taken amount $#{amt < 0 ? amt*-1 : amt } from #{from.join(", ")}"
 
     event_details.each do|event_detail|
       balance_amt = (divided_amt - (event_detail.paid_amount)) rescue 0
